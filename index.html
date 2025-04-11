@@ -1,25 +1,29 @@
+<!DOCTYPE HTML>
+<html>
+<style>
+text::selection{
+    color: blue;
+}
+</style>
 <script>
-var idd = null;
-function onl()
-{
-    idd = document.getElementById("idd");
-    idd.onload = null;
-    idd.src = 'http://127.0.0.1:8000/exp.html'
-}
-function f()
-{
-    idd.onload = g;
-    idd.src = "http://127.0.0.1:8000/&foo=1";
-}
-function g()
-{
-    idd.onload = null;
-    document.getElementById("cur").appendChild(document.createElement("a"));
-}
+window.addEventListener("load", function () {
+    var range = document.createRange();
+    var selection = document.getSelection()
+    range.setStart(m1, 0);
+    range.setEnd(id1, id1.childNodes.length);
+    selection.addRange(range);
+}, false);
 </script>
 <body>
-<div id="id1"></div>
-<div id="cur"></div><br>
-<video id="vid"></video>
-<iframe id="idd" style="display:none" onload="onl();"></iframe>
-</body>
+<svg width="200" height="200" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+ <defs>
+  <mask id="m1" x="0" y="0" width="200" height="200">
+   <circle cx="100" cy="100" r="20" fill="white"/>
+   <text y="100" fill="white" font-size="50">
+    Text
+   </text>
+  </mask>
+ </defs>
+ <rect id="id1" mask="url(#m1)" x="10" y="10" width="180" height="180"/>
+</svg>
+</html>
