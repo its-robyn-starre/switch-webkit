@@ -5,39 +5,7 @@
         alert(error + ' URL:' + url + ' L:' + line);
     };
 </script>
-<script>
-    
-let worker = new Worker("rop_slave.js");
-
-
-    //Make sure worker is alive?
-    async function wait_for_worker() {
-        let p1 = await new Promise((resolve) => {
-            const channel = new MessageChannel();
-            channel.port1.onmessage = () => {
-                channel.port1.close();
-                resolve(1);
-            }
-            worker.postMessage(0, [channel.port2]);
-        });
-        return p1;
-    }
-
-    function find_worker() {
-
-        const PTHREAD_NEXT_THREAD_OFFSET = 0x38;
-        const PTHREAD_STACK_ADDR_OFFSET = 0xA8;
-        const PTHREAD_STACK_SIZE_OFFSET = 0xB0;
-
-        for (let thread = p.read8(libKernelBase.add32(OFFSET_lk__thread_list)); thread.low != 0x0 && thread.hi != 0x0; thread = p.read8(thread.add32(PTHREAD_NEXT_THREAD_OFFSET))) {
-            let stack = p.read8(thread.add32(PTHREAD_STACK_ADDR_OFFSET));
-            let stacksz = p.read8(thread.add32(PTHREAD_STACK_SIZE_OFFSET));
-            if (stacksz.low == 0x80000) {
-                alert(stack);
-                return stack;
-            }
-        }
-        alert("failed to find worker.");
-    }
-</script>
+    <script>
+        w = new Worker('rop_slave.js');
+    </script>
 <button onClick="window.location.reload();">Refresh Page</button>
